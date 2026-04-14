@@ -1,72 +1,59 @@
-# Pertemuan-2 Percabangan & Perulangan
-## Pertanyaan 1.5 Percabangan
-1. Pada kondisi apa program masuk ke blok if?
-    * Jawab : Ketika LED berkedip sangat cepat dan timeDelay mencapai nilai kurang dari 100 ms
-2. Pada kondisi apa program masuk ke blok else?
-    * Jawab : Ketika LED berkedip dengan normal diatas 100 ms
-3. Apa fungsi dari perintah delay(timeDelay)?
-    * Jawab : delay(timeDElay) memberikan jeda berhenti selama variabel timeDelay sebelum menjalankan perintah selanjutnya
-4. Jika program yang dibuat memiliki alur mati → lambat → cepat → reset (mati), ubah menjadi LED tidak langsung reset → tetapi berubah dari cepat → sedang → mati dan berikan penjelasan disetiap baris kode nya
-    * Jawab : 
+# Laporan Praktikum Modul 2 - Pemrograman GPIO
+## Pertanyaan Percobaan 2A: Seven Segment
+
+1. Gambarkan Rangkaian Schematic pada Percobaan!
+    **Jawab:** ![alt text](dokumentasi/image.png)
+
+2. Apa yang terjadi jika nilai variabel `num` lebih dari 15 pada fungsi `displayDigit`?
+   **Jawab:** Jika nilai `num` melebihi 15, program akan mengakses indeks memori di luar batas array `digitPattern` (yang hanya didefinisikan dari 0 hingga 15), sehingga Seven Segment akan menampilkan pola acak atau data sampah dari memori mikrokontroler yang tidak merepresentasikan karakter hexadesimal yang valid.
+
+3. Apakah program ini menggunakan Seven Segment tipe Common Cathode atau Common Anode? Jelaskan alasannya berdasarkan kode!
+   **Jawab:** Program ini menggunakan tipe **Common Anode** karena pada fungsi `displayDigit` terdapat operator NOT (`!`) pada perintah `digitalWrite(segmentPins[i], !digitPattern[num][i])`, yang berarti logika '1' pada pola diubah menjadi 'LOW' (0V) agar LED menyala, sesuai dengan prinsip kerja Common Anode yang membutuhkan sinyal LOW untuk mengaktifkan segmen.
+
+4. Modifikasi Program Alur Tampilan F ke 0
 ```cpp
-const int ledPin = 6; 
-int timeDelay = 1000;
-int step = -100; // step perubahan delay
-
-void setup() {
-    pinMode(ledPin, OUTPUT);
-}
-
 void loop() {
-    digitalWrite(ledPin, HIGH);
-    delay(timeDelay);
-    
-    digitalWrite(ledPin, LOW);
-    delay(timeDelay);
-    
-    timeDelay += step; // timeDelay dijumlahkan dengan step untuk mengubah delay
-
-    if (timeDelay <= 100) {
-        step = 100; // ketika mencapai timeDelay 100, step diubah menjadi positif untuk meningkatkan delay
-    } 
-
-    if (step == 100 && timeDelay >= 700) {
-        digitalWrite(ledPin, LOW); // ketika timeDelay sedang, LED reset(mati)
-        delay(3000);
-        step = -100; // ketika mencapai timeDelay 700, step diubah menjadi negatif untuk menurunkan delay
-        timeDelay = 1000; // timeDelay menjadi lambat seperti semula
-    }
+  // Melakukan perulangan mundur dari indeks 15 (F) hingga 0 (0)
+  for(int i = 15; i >= 0; i--) { 
+    displayDigit(i); // Memanggil fungsi untuk menampilkan karakter berdasarkan indeks i
+    delay(1000);     // Memberikan jeda waktu 1 detik sebelum berganti karakter
+  }
 }
 ```
-## Pertanyaan 1.6 Perulangan
-1. Gambarkan rangkaian schematic 5 LED running yang digunakan pada percobaan!
-    * Jawab : ![alt text](Dokumentasi/image1.png)
-2. Jelaskan bagaimana program membuat efek LED berjalan dari kiri ke kanan!
-    * Jawab : dengan for loop pertama bergantian menyalakan dan mematikan led pin 2-7 bergantian
-3. Jelaskan bagaimana program membuat LED kembali dari kanan ke kiri!
-    * Jawab : dengan for loop kedua bergantian menyalakan dan mematikan led pin 7-2 bergantian
-4. Buatkan program agar LED menyala tiga LED kanan dan tiga LED kiri secara bergantian dan berikan penjelasan disetiap baris kode nya!
-    * Jawab :
-    ```cpp
-    int timer = 500;           
-    void setup() { 
 
-    output: 
-    for (int ledPin = 2; ledPin < 8; ledPin++) { 
-        pinMode(ledPin, OUTPUT); 
-    } 
-    } 
-    void loop() { 
-    for (int i = 2; i <= 4; i++) { 
-        digitalWrite(i, HIGH);      // indeks i(2,3,4) sebagai ledPin akan menyala
-        digitalWrite(i + 3, LOW);   // indeks i+3(5,6,7) sebagai ledPin akan mati
-    } 
-    delay(timer); 
+## Pertanyaan Percobaan 2B: Kontrol Counter
 
-    for (int i = 2; i <= 4; i++) { 
-        digitalWrite(i, LOW);       // indeks i(2,3,4) sebagai ledPin akan mati
-        digitalWrite(i + 3, HIGH);  // indeks i+3(5,6,7) sebagai ledPin akan menyala
-    } 
-    delay(timer); 
-    } 
-    ```
+1. Gambarkan Rangkaian Schematic pada Percobaan!
+    **Jawab:** ![alt text](dokumentasi/image1.png)
+
+2. Mengapa pada push button digunakan mode `INPUT_PULLUP` pada Arduino Uno? Apa keuntungannya?
+   **Jawab:** Penggunaan `INPUT_PULLUP` bertujuan untuk mengaktifkan resistor internal Arduino yang menarik tegangan pin ke posisi HIGH (5V) secara default, sehingga memberikan keuntungan berupa penghematan komponen karena tidak memerlukan resistor eksternal dan mencegah terjadinya kondisi *floating* (sinyal mengambang) saat tombol tidak ditekan.
+
+3. Jika salah satu LED segmen tidak menyala saat counter berjalan, apa saja kemungkinan penyebabnya dari sisi hardware maupun software?
+   **Jawab:** Dari sisi hardware, kemungkinan penyebabnya adalah kabel jumper yang putus, resistor yang longgar, atau kerusakan fisik pada segmen LED tersebut, sedangkan dari sisi software, hal ini bisa disebabkan oleh kesalahan pemetaan pin pada array `segmentPins` atau kesalahan penulisan nilai '1' dan '0' pada array `digitPattern` untuk digit tertentu.
+
+4. Modifikasi Increment & Decrement
+```cpp
+void loop() {
+  bool upState = digitalRead(buttonUp); // Menyimpan kondisi logika terkini dari tombol penambah.
+  bool downState = digitalRead(buttonDown); // Menyimpan kondisi logika terkini dari tombol pengurang.
+
+  // Logika Increment apabila tombol penambah ditekan.
+  if (lastUpState == HIGH && upState == LOW) { 
+    counter++;
+    if(counter > 15) counter = 0;
+    displayDigit(counter);
+    delay(200); 
+  }
+  
+  // Logika Decrement apabila tombol pengurang ditekan.
+  if (lastDownState == HIGH && downState == LOW) {
+    counter--;
+    if(counter < 0) counter = 15;
+    displayDigit(counter);
+    delay(200);
+  }
+
+  lastUpState = upState; // apabila tombol penambah ditekan, kondisi nya akan disimpan ke lastUpState
+  lastDownState = downState; // apabila tombol pengurang ditekan, kondisi nya akan disimpan ke lastUpState
+}
