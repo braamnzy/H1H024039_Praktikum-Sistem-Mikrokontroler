@@ -2,7 +2,7 @@
 ## Pertanyaan Percobaan 2A: Seven Segment
 
 1. Gambarkan Rangkaian Schematic pada Percobaan!
-    **Jawab:** ![alt text](dokumentasi/image.png)
+    **Jawab:** ![alt text](Dokumentasi/image.png)
 
 2. Apa yang terjadi jika nilai variabel `num` lebih dari 15 pada fungsi `displayDigit`?
    **Jawab:** Jika nilai `num` melebihi 15, program akan mengakses indeks memori di luar batas array `digitPattern` (yang hanya didefinisikan dari 0 hingga 15), sehingga Seven Segment akan menampilkan pola acak atau data sampah dari memori mikrokontroler yang tidak merepresentasikan karakter hexadesimal yang valid.
@@ -24,7 +24,7 @@ void loop() {
 ## Pertanyaan Percobaan 2B: Kontrol Counter
 
 1. Gambarkan Rangkaian Schematic pada Percobaan!
-    **Jawab:** ![alt text](dokumentasi/image1.png)
+    **Jawab:** ![alt text](Dokumentasi/image1.png)
 
 2. Mengapa pada push button digunakan mode `INPUT_PULLUP` pada Arduino Uno? Apa keuntungannya?
    **Jawab:** Penggunaan `INPUT_PULLUP` bertujuan untuk mengaktifkan resistor internal Arduino yang menarik tegangan pin ke posisi HIGH (5V) secara default, sehingga memberikan keuntungan berupa penghematan komponen karena tidak memerlukan resistor eksternal dan mencegah terjadinya kondisi *floating* (sinyal mengambang) saat tombol tidak ditekan.
