@@ -1,5 +1,5 @@
 # Laporan Praktikum Modul 4 - Analog to Digital Converter (ADC) dan Pulse Width Modulation (PWM)
-Percobaan 4A berfokus pada pengendalian posisi mekanis motor servo melalui pembacaan tegangan analog potensiometer yang dikonversi menjadi data digital 10-bit ($0$–$1023$) dan dipetakan ke skala sudut $0$°–$180$°, sedangkan Percobaan 4B menerapkan teknik Pulse Width Modulation (PWM) untuk mengatur intensitas cahaya LED secara bertahap dengan memetakan nilai ADC ke dalam rentang duty cycle 8-bit ($0$–$255$). Kedua percobaan ini secara kolektif mendemonstrasikan bagaimana mikrokontroler menjembatani fenomena fisik kontinu dengan pemrosesan digital diskrit untuk menghasilkan aksi output yang presisi dan linier.
+Percobaan 4A berfokus pada pengendalian posisi mekanis motor servo melalui pembacaan tegangan analog potensiometer yang dikonversi menjadi data digital 10-bit (0–1023) dan dipetakan ke skala sudut 0°–180°, sedangkan Percobaan 4B menerapkan teknik Pulse Width Modulation (PWM) untuk mengatur intensitas cahaya LED secara bertahap dengan memetakan nilai ADC ke dalam rentang duty cycle 8-bit (0–255). Kedua percobaan ini secara kolektif mendemonstrasikan bagaimana mikrokontroler menjembatani fenomena fisik kontinu dengan pemrosesan digital diskrit untuk menghasilkan aksi output yang presisi dan linier.
 
 ## Pertanyaan Percobaan 4A: Analog to Digital Converter
 
